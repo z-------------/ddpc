@@ -46,10 +46,24 @@ const getEdges = function(canvas, ctx) {
     i++;
   }
 
-  ctx.fillStyle = "gold";
-  perimeter.forEach(function(point, i) {
+  // find lines
+  let vertices = [perimeter[0]];
+  let lineBuffer = [];
+  i = 1;
+  while (i < perimeter.length - 1) {
+    lineBuffer.push(perimeter[i]);
+    if (lineBuffer.length >= 3 && !isLine(lineBuffer, 1)) {
+      vertices.push(perimeter[i - 1]);
+      lineBuffer.length = 0;
+    }
+    i++;
+  }
+  vertices.push(perimeter[perimeter.length - 1]);
+
+  vertices.forEach(function(point, i) {
     setTimeout(function() {
-      ctx.fillRect(point[0] - 1.5, point[1] - 1.5, 3, 3);
+      ctx.fillStyle = "gold";
+      ctx.fillRect(point[0] - 2.5, point[1] - 2.5, 5, 5);
     }, i * 10);
   });
 };
